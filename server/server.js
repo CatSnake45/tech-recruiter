@@ -1,12 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const router = require('./routes/routers.js');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const userController = require('./controllers/userController');
-// const login = require ('./controllers/login.js');
-// const getUserData = require('./controllers/getUserData.js');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import userController from './controllers/userController.js';
+import jobController from './controllers/jobController.js';
 
 const app = express();
 
@@ -18,14 +16,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 dotenv.config();
 
 const PORT = process.env.PORT;
-const MONGO_URL = process.env.MONGO_URL;
+const MONGO_URI = process.env.MONGO_URI;
+//'mongodb+srv://cyrusburns:cyburns@cluster0.oopqdji.mongodb.net/?retryWrites=true&w=majority';
+app.get('/', jobController.getJobData, (req, res) => {
+  console.log(res.locals.jobs);
+  //console.log(res.locals.jobs);
 
-app.get('/', router);
-//app.get("/userData", getUserData);
+  return res.status(200).json(res.locals.jobs);
+});
 
-app.post('/register', userController.register);
+app.post('/register', userController.register, (req, res) => {
+  return res.status(201).json(res.locals.savedUser);
+});
 
-app.post('/login', userController.login);
+app.post('/login', userController.login),
+  (req, res) => {
+    return res.status(200).json(res.locals.user);
+  };
+
+/* Not used anywhere
+app.get('/userData', userController.getUserData, (req, res) => {
+  return res.status(200).json(res.locals.userData);
+}); */
 
 // 404 route handler
 app.use((req, res) => res.sendStatus(404));
@@ -43,7 +55,7 @@ app.use((err, req, res, next) => {
 });
 
 mongoose
-  .connect(MONGO_URL, {
+  .connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
