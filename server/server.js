@@ -1,12 +1,12 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import router from "./routes/routers.js";
-import mongoose from "mongoose";
-import bodyParser from "body-parser";
-import { register } from "./controllers/register.js";
-import { login } from "./controllers/login.js";
-import { getUserData } from "./controllers/getUserData.js";
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const router = require('./routes/routers.js');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const userController = require('./controllers/userController');
+// const login = require ('./controllers/login.js');
+// const getUserData = require('./controllers/getUserData.js');
 
 const app = express();
 
@@ -20,14 +20,27 @@ dotenv.config();
 const PORT = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
 
-app.get("/", router);
-app.get("/userData", getUserData);
+app.get('/', router);
+//app.get("/userData", getUserData);
 
-app.post("/register", register);
+app.post('/register', userController.register);
 
-app.post("/login", login);
+app.post('/login', userController.login);
+
+// 404 route handler
+app.use((req, res) => res.sendStatus(404));
 
 // create global error handler
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 500,
+    message: { err: 'An error occurred' },
+  };
+  const errorObj = Object.assign({}, defaultErr, err);
+  console.log(errorObj.log);
+  return res.status(errorObj.status).json(errorObj.message);
+});
 
 mongoose
   .connect(MONGO_URL, {
