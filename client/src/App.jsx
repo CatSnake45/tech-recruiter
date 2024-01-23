@@ -25,6 +25,8 @@ const App = () => {
   let state;
   let newCity;
 
+
+//search function, when user submits, it iniatites a fetch request, and appends data to the job cards array. Then updates state of cards array
   const getSearch = async (e) => {
     const cityArr = city.split(", ");
     state = cityArr[1];
@@ -39,14 +41,19 @@ const App = () => {
       </button>
     );
     const newData = await fetchData(newCity, state, jobType);
+    
+    // this is why all new data is added to existing old data. instead, just set existing state to newData
     const updatedData = jobCards.concat(newData);
     updateCards(updatedData);
   };
 
+
+  //function to set the city to user input , and change job type state
   const updateCity = (e) => {
     setCity(e.target.value);
   };
 
+  //what is showSeeMore meant to do?? Seems like it fetches data, updates state, and returns showSeeMore? Maybe 0th index is not relevant
   const updateCount = async (e) => {
     console.log("-------clicked---------");
     const newData = await fetchData(newCity, state, jobType);
@@ -58,9 +65,14 @@ const App = () => {
     }
   };
 
+  //set job value upon user input
   const setJob = (e) => {
     setJobType(e.target.value);
   };
+
+
+  //logic: if not logged in, render log in page, else show home page
+  //passes down state of job, city, state, cards, and search
 
   return (
     <div className="app-bg">
