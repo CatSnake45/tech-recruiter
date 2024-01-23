@@ -43,7 +43,8 @@ const App = () => {
     const newData = await fetchData(newCity, state, jobType);
     
     // this is why all new data is added to existing old data. instead, just set existing state to newData
-    const updatedData = jobCards.concat(newData);
+  //  const updatedData = jobCards.concat(newData);
+    const updatedData = newData
     updateCards(updatedData);
   };
 
