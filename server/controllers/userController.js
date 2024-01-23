@@ -12,10 +12,15 @@ userController.register = async (req, res, next) => {
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
-    const newUser = new User({ userName, password: passwordHash, city });
-    const savedUser = await newUser.save();
+    const newUser = await User.create({
+      userName,
+      password: passwordHash,
+      city,
+    });
+    //const newUser = new User({ userName, password: passwordHash, city });
+    //const savedUser = await newUser.save();
 
-    res.locals.savedUser = savedUser;
+    res.locals.savedUser = newUser;
     return next();
   } catch (error) {
     //return res.status(400).json({ error: `Could not create user ${error}` });
@@ -44,8 +49,9 @@ userController.login = async (req, res, next) => {
     if (!correctPassword) {
       return res.status(400).json({ error: 'Incorrect password' });
     }
-
-    res.locals.user = user;
+    console.log('usercontroller.login: user: ', user);
+    console.log('usercontroller.login: {user}: ', { user });
+    res.locals.user = { user };
     return next();
   } catch (error) {
     return next({
@@ -53,7 +59,6 @@ userController.login = async (req, res, next) => {
       status: 500,
       message: { err: 'Error ocurred in userController.login.' },
     });
-    //return res.status(500).json({ error: error.message });
   }
 };
 
@@ -74,7 +79,6 @@ userController.getUserData = async (req, res, next) => {
       status: 500,
       message: { err: 'Error ocurred in userController.getUserData.' },
     });
-    //return res.status(500).json({ error: error.message });
   }
 };
 

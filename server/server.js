@@ -19,7 +19,7 @@ const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 //'mongodb+srv://cyrusburns:cyburns@cluster0.oopqdji.mongodb.net/?retryWrites=true&w=majority';
 app.get('/', jobController.getJobData, (req, res) => {
-  console.log(res.locals.jobs);
+  //console.log(res.locals.jobs);
   //console.log(res.locals.jobs);
 
   return res.status(200).json(res.locals.jobs);
@@ -29,10 +29,10 @@ app.post('/register', userController.register, (req, res) => {
   return res.status(201).json(res.locals.savedUser);
 });
 
-app.post('/login', userController.login),
-  (req, res) => {
-    return res.status(200).json(res.locals.user);
-  };
+app.post('/login', userController.login, (req, res) => {
+  console.log(`res.locals.user: ${res.locals.user}`);
+  return res.status(200).json(res.locals.user);
+});
 
 /* Not used anywhere
 app.get('/userData', userController.getUserData, (req, res) => {
@@ -45,7 +45,7 @@ app.use((req, res) => res.sendStatus(404));
 // create global error handler
 app.use((err, req, res, next) => {
   const defaultErr = {
-    log: 'Express error handler caught unknown middleware error',
+    log: `Express error handler caught unknown middleware error: ${err}`,
     status: 500,
     message: { err: 'An error occurred' },
   };
@@ -58,6 +58,7 @@ mongoose
   .connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    dbName: 'tech_recruiter',
   })
   .then(() => {
     app.listen(PORT, () => console.log(`Listening on ${PORT}`));
