@@ -30,13 +30,16 @@
 
 # Checking the backend
 
-## Checking routes
+## Checking server
 
 - [ ] Routes do not seem restful (userData, register, login)
 - [ ] Unnecessary sub-router in root route
 - [ ] all the responses are in the middleware
 - [ ] is GET /userData used at all?
-- [ ]
+- [ ] bodyparser.json() no longer necessary?
+- [x] create a global error handler
+- [x] create a 404 handler
+- [ ] changing imports to require
 
 ## Checking controllers
 
@@ -46,3 +49,10 @@
 - [ ] (front-end?) city is always being grabbed from
 - [ ] create and bind a new database
 - [ ] create and bind in a new API
+- [ ] put API in an ENV variable?
+- [ ] imported JWT (jsonwebtoken) but never used it?
+- [x] Bundle all user related middleware into a new userController
+
+### Working on the Job API
+
+https://developer.adzuna.com/activedocs#!/adzuna/search
