@@ -68,21 +68,25 @@ const Signup = () => {
         body: JSON.stringify(userInformation),
       });
 
-      const loggedIn = await loginResponse.json();
-      console.log('LOGGED IN', loggedIn);
-
-      if (!loggedIn['error']) {
+      const loggedInResponse = await loginResponse.json();
+      // console.log(loggedInResponse);
+      // throw an alert for any login errors
+      if (!('error' in loggedInResponse)) {
+        //console.log('LOGGED IN', loggedInResponse);
         dispatch(
           setLogin({
-            user: loggedIn.user,
+            user: loggedInResponse.user,
           })
         );
 
         navigate('/home');
-        console.log('success logging in', loggedIn);
+        //console.log('success logging in', loggedInResponse);
+      } else {
+        alert(`Error: ${loggedInResponse.error}`);
       }
     } catch (error) {
-      console.error(`Error logging in: ${error}`);
+      //console.error(`Error logging in: ${error}`);
+      alert(`Error logging in: ${error}`);
     }
   };
 
