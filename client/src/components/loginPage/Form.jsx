@@ -42,7 +42,7 @@ const Signup = () => {
       // setPassword("");
       // setCity("");
 
-      if (!'err' in registerResponse) {
+      if (!('err' in registerResponse)) {
         alert('Account has been created!');
         setPageType('login');
         //console.log('', savedUser);
