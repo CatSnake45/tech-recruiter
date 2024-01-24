@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-const Search = ({ getSearch, setJob, city, updateCity }) => {
+const Search = ({ getSearch, setJob, city, updateCity,jobCards }) => {
   const user = useSelector((state) => state.user);
   console.log('city in search', user.city);
+  console.log('jobCards in Search',jobCards)
   return (
     <div className='search-bar'>
       <select

@@ -63,6 +63,7 @@ const HomePage = ({
           </p>
           <div className='search-div'>
             <Search
+              jobCards = {jobCards}
               getSearch={getSearch}
               newCity={newCity}
               setJob={setJob}

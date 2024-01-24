@@ -22,6 +22,7 @@ const App = () => {
   const [jobType, setJobType] = useState('Python developer');
   const [city, setCity] = useState('');
   const [jobCards, updateCards] = useState([]);
+  const [seeMore, setSeeMore] = useState(false);
   // PB: Added a piece of state to keep track of searches
   const [searchCount, updateSearchCount] = useState(0);
 
@@ -31,6 +32,7 @@ const App = () => {
   const getSearch = async (e) => {
     console.log('getSearch!');
     const location = city;
+    updateCards([]);
 
     // PB: When getSearch is called, set searchCount variable to 1
     // await updateSearchCount(1);
@@ -39,13 +41,16 @@ const App = () => {
 
     // PB: variable for search count
     // let count = searchCount;
-    const newData = await fetchData(city, jobType, counter);
+    const { done, jobsArray } = await fetchData(city, jobType, counter);
+    console.log('jobsArray line 45:', jobsArray);
+
+    // figure out why only 9 of these 10 jobCards get rendered
 
     // this is why all new data is added to existing old data. instead, just set existing state to newData
     //  const updatedData = jobCards.concat(newData);
-    const updatedData = newData;
-    updateCards(updatedData);
+    updateCards(jobsArray);
     showSeeMore = true;
+    setSeeMore(true);
   };
 
   //function to set the city to user input , and change job type state
@@ -63,11 +68,13 @@ const App = () => {
     console.log(
       `city: ${city}, state: ${state}, jobType: ${jobType}, counter: ${counter}`
     );
-    let newData = await fetchData(city, jobType, counter);
-    console.log('App.jsx newData:', newData);
-    updateCards(newData);
-    let done = newData[0];
-    if (done === 'true') {
+    let { done, jobsArray } = await fetchData(city, jobType, counter);
+    console.log('App.jsx jobsArray:', jobsArray);
+    //for(let i = 1; i < newData.length; i++){}
+    updateCards([...jobCards, ...jobsArray]);
+
+    if (done === true) {
+      setSeeMore(false);
       showSeeMore = false;
       counter = 0;
     }
@@ -99,7 +106,7 @@ const App = () => {
               state={state}
               city={city}
               updateCity={updateCity}
-              showSeeMore={showSeeMore}
+              showSeeMore={seeMore}
               seeMoreJobs={updateCount}
             />
           }
