@@ -8,7 +8,7 @@ import configureStore from 'redux-mock-store';
 
 import Search from '../Search.jsx';
 import Form from '../loginPage/Form.jsx';
-import jestConfig from '../../../../jest.config.js';
+import jestConfig from '../../../../config.jsons';
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
