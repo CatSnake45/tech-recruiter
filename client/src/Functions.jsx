@@ -1,12 +1,13 @@
 let tempJobsArr = [false];
 let counter = 1;
 
-const fetchData = async (city, state, jobType, isDone) => {
+// PB: replaced isDone parameter with count; isDone does not appear to be used
+const fetchData = async (city, state, jobType, count) => {
   counter += 6;
   await fetch('http://localhost:3000/')
     .then((response) => {
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('Error fetching data!');
       }
       return response.json();
     })
@@ -22,7 +23,7 @@ const fetchData = async (city, state, jobType, isDone) => {
       // console.log(tempJobsArr);
     })
     .catch((error) => {
-      console.error('Error fetching data:', error);
+      console.error(`Error in fetchData method: ${error}`);
     });
   return tempJobsArr;
 };
