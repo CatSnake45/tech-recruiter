@@ -10,6 +10,8 @@ import { useSelector } from 'react-redux';
 let showSeeMore = false;
 let fetched = false;
 let counter = 0;
+let state;
+let newCity;
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -24,15 +26,11 @@ const App = () => {
   const [searchCount, updateSearchCount] = useState(0);
 
   // create two variables to hold city and state, then pass as props
-  let state;
-  let newCity;
 
   //search function, when user submits, it iniatites a fetch request, and appends data to the job cards array. Then updates state of cards array
   const getSearch = async (e) => {
     console.log('getSearch!');
-    const cityArr = city.split(', ');
-    state = cityArr[1];
-    newCity = cityArr[0];
+    const location = city;
 
     // PB: When getSearch is called, set searchCount variable to 1
     // await updateSearchCount(1);
@@ -41,7 +39,7 @@ const App = () => {
 
     // PB: variable for search count
     // let count = searchCount;
-    const newData = await fetchData(newCity, state, jobType, counter);
+    const newData = await fetchData(city, jobType, counter);
 
     // this is why all new data is added to existing old data. instead, just set existing state to newData
     //  const updatedData = jobCards.concat(newData);
@@ -62,8 +60,11 @@ const App = () => {
     counter++;
     console.log('clicked updateCount, counter:', counter);
     // let count = searchCount;
-    const newData = await fetchData(newCity, state, jobType, counter);
-    console.log('App.jsx line 62:', newData);
+    console.log(
+      `city: ${city}, state: ${state}, jobType: ${jobType}, counter: ${counter}`
+    );
+    let newData = await fetchData(city, jobType, counter);
+    console.log('App.jsx newData:', newData);
     updateCards(newData);
     let done = newData[0];
     if (done === 'true') {

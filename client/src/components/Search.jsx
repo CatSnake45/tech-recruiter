@@ -10,7 +10,7 @@ const Search = ({ getSearch, setJob, city, updateCity }) => {
         className='select-box'
         name='type'
         id='date-types'
-        onChange={(e) => setJob(e)}
+        onChange={async (e) => await setJob(e)}
       >
         <option value='' disabled>
           Select Job Type
@@ -31,7 +31,7 @@ const Search = ({ getSearch, setJob, city, updateCity }) => {
         className='search-bar select-box'
         type='text'
         placeholder={user.city}
-        onChange={(e) => updateCity(e)}
+        onChange={async (e) => await updateCity(e)}
       />
       <button
         className='search-button'

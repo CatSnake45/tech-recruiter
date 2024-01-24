@@ -13,9 +13,7 @@ export default function Job({ jobCards, data }) {
         </p>
         <ul className='jobDetailsList'>
           <li className='jobDetail'>Employer: {company.display_name}</li>
-          <li className='jobDetail'>
-            Location: {`${location.area[3]}, ${location.area[1]}`}
-          </li>
+          <li className='jobDetail'>Location: {`${location.display_name}`}</li>
           <li className='jobDetail'>
             Posted At: {created.replace('T', ' at ')}
           </li>
