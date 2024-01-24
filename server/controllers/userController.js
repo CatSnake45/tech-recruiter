@@ -6,28 +6,60 @@ const userController = {};
 
 userController.register = async (req, res, next) => {
   try {
-    //console.log('REGISTER FUNC CALLED');
+    // console.log('REGISTER FUNC CALLED');
     const { userName, password, city } = req.body;
+    // input value is always a string, so I will compare it to a number
+    if (!isNaN(parseInt(userName)) || !isNaN(parseInt(city))) {
+      return next({
+        log: `Error occured in userController.register: Bad Input!`,
+        status: 400,
+        message: {
+          err: `Please enter a valid username and city!`,
+        },
+      });
+    }
+    // check if user exists!
+    const existingUser = await User.findOne({ userName });
+    if (existingUser) {
+      return next({
+        log: `Error occured in userController.register: Username already exists!`,
+        status: 400,
+        message: {
+          err: 'Username already exists!',
+        },
+      });
+    }
 
+    // salt the password and create the new user
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
-
     const newUser = await User.create({
       userName,
       password: passwordHash,
       city,
     });
-    //const newUser = new User({ userName, password: passwordHash, city });
-    //const savedUser = await newUser.save();
+    // console.log(newUser);
 
     res.locals.savedUser = newUser;
     return next();
   } catch (error) {
-    //return res.status(400).json({ error: `Could not create user ${error}` });
+    // Check if the error is a validation error
+    if (error.name === 'ValidationError') {
+      return next({
+        log: 'userController.register: Validation Error',
+        status: 400,
+        message: {
+          err: 'User Validation error:',
+          details: error.message,
+        },
+      });
+    }
+
+    // All unhandled errors return a 500 status code
     return next({
       log: `userController.register: Error: ${error}`,
       status: 500,
-      message: { err: 'Error ocurred in userController.register.' },
+      message: { err: 'Error occurred in userController.register.' },
     });
   }
 };
