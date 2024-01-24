@@ -1,47 +1,55 @@
+import '@babel/register';
 import request from 'supertest';
-import fs from 'fs';
-import path from 'path';
-import { describe, it } from 'node:test';
-const server = 'http://localhost:5173';
-import mongoose from 'mongoose';
-import createServer from '../server.js';
+import { describe, it } from 'mocha'; // Change 'node:test' to 'mocha'
+const server = 'http://localhost:3000';
 
 describe('Route Integration', () => {
   describe('/', () => {
-    it(' / responsds with code 200 and text/html content', () => {
-      return request(server)
+    it(' / responsds with code 200 and text/html content', async () => {
+      return await request(server)
         .get('/')
-        .expect('Content-Type', /text\/html/)
-        .expect(200);
-    });
-  });
-
-  describe('/userData', () => {
-    it('/userData responsds with code 200 and text/html content', () => {
-      return request(server)
-        .get('/userData')
-        .expect('Content-Type', /text\/html/)
+        .send({ what: 'Full Stack', where: 'McKinney', page: 1 })
+        .expect('Content-Type', /application\/json/)
         .expect(200);
     });
   });
 
   describe('/register', () => {
-    it('/register post responds with code 200 and text/html content', () => {
-      return request(server)
+    it('/register post responds with code 200 and text/html content', async () => {
+      return await request(server)
         .post('/register')
-        .expect('Content-Type', /text\/html/)
+        .send({ userName: 'trevor1', password: '12345', city: 'McKinney' })
+        .expect('Content-Type', /application\/json/)
         .expect(201);
     });
   });
 
   describe('/login', () => {
-    it('/login post responds with code 200 and text/html content', () => {
-      return request(server)
+    it('/login post responds with code 200 and text/html content', async () => {
+      return await request(server)
         .post('/login')
-        .expect('Content-Type', /text\/html/)
+        .send({ userName: 'trevor', password: '12345', city: 'McKinney' })
+        .expect('Content-Type', /application\/json/)
         .expect(200);
     });
   });
-});
 
-const app = createServer();
+  describe('Not a Path', () => {
+    it('/notapath should return 404', async () => {
+      return await request(server)
+        .get('/notapath')
+        .expect('Content-Type', /text\/plain/)
+        .expect(404);
+    });
+  });
+
+  describe('Throw Error Handler', () => {
+    it('incomplete data throws 400 error', async () => {
+      return await request(server)
+        .post('/register')
+        .send({ userName: 'trevor', password: '12345' })
+        .expect('Content-Type', /application\/json/)
+        .expect(400);
+    });
+  });
+});
