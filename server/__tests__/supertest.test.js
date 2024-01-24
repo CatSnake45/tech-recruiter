@@ -42,4 +42,14 @@ describe('Route Integration', () => {
         .expect(404);
     });
   });
+
+  describe('Throw Error Handler', () => {
+    it('incomplete data throws 400 error', async () => {
+      return await request(server)
+        .post('/register')
+        .send({ userName: 'trevor', password: '12345' })
+        .expect('Content-Type', /application\/json/)
+        .expect(400);
+    });
+  });
 });
