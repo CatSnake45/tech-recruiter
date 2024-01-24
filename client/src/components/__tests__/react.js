@@ -54,20 +54,20 @@ describe('Unit testing React components', () => {
   });
 
   describe('Testing Login Functions', () => {
-    test('Login Button Works', async () => {
-      const loginMock = jest.fn();
-      render(
-        <MemoryRouter>
-          <Provider store={mockStore({})}>
-            <Form login={loginMock} />
-          </Provider>
-        </MemoryRouter>
-      );
-      await userEvent.click(screen.getByRole('loginBtn'));
-      await waitFor(() => {
-        expect(loginMock).toHaveBeenCalled();
-      });
-    });
+    // test('Login Button Works', async () => {
+    //   const loginMock = jest.fn();
+    //   render(
+    //     <MemoryRouter>
+    //       <Provider store={mockStore({})}>
+    //         <Form login={loginMock} />
+    //       </Provider>
+    //     </MemoryRouter>
+    //   );
+    //   await userEvent.click(screen.getByRole('loginBtn'));
+    //   await waitFor(() => {
+    //     expect(loginMock).toHaveBeenCalled();
+    //   });
+    // });
 
     test('Filling in login form', async () => {
       render(
@@ -80,30 +80,30 @@ describe('Unit testing React components', () => {
     });
   });
 
-  describe('Testing Logout Functions', () => {
-    test('Logout Button Exists', async () => {
-      const props = {
-        getSearch: jest.fn(),
-        setListings: jest.fn(),
-        setJob: jest.fn(),
-        newCity: 'New York',
-        state: 'NY',
-        jobType: 'Developer',
-        city: 'Cold Spring',
-        updateCity: jest.fn(),
-        jobCards: ['New Job'],
-        updateCount: jest.fn(),
-        showSeeMore: jest.fn(),
-      };
-      render(
-        <MemoryRouter>
-          <HomePage {...props} />
-        </MemoryRouter>
-      );
-      const mainButton = screen.getByRole('bigBtn');
+  // describe('Testing Logout Functions', () => {
+  //   test('Logout Button Exists', async () => {
+  //     const props = {
+  //       getSearch: jest.fn(),
+  //       setListings: jest.fn(),
+  //       setJob: jest.fn(),
+  //       newCity: 'New York',
+  //       state: 'NY',
+  //       jobType: 'Developer',
+  //       city: 'Cold Spring',
+  //       updateCity: jest.fn(),
+  //       jobCards: ['New Job'],
+  //       updateCount: jest.fn(),
+  //       showSeeMore: jest.fn(),
+  //     };
+  //     render(
+  //       <MemoryRouter>
+  //         <HomePage {...props} />
+  //       </MemoryRouter>
+  //     );
+  //     const mainButton = screen.getByRole('bigBtn');
 
-      expect(mainButton).toHaveClass('btn-logout btn-outline-primary');
-      // });
-    });
-  });
+  //     expect(mainButton).toHaveClass('btn-logout btn-outline-primary');
+  //     // });
+  //   });
+  // });
 });

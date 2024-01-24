@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 const Search = ({ getSearch, setJob, city, updateCity, jobCards }) => {
   const user = useSelector((state) => state.user);
-  console.log('city in search', user.city);
+  // console.log('city in search', user.city);
   console.log('jobCards in Search', jobCards);
   return (
     <div className='search-bar'>
@@ -33,7 +33,7 @@ const Search = ({ getSearch, setJob, city, updateCity, jobCards }) => {
         className='search-bar select-box'
         type='text'
         role='searchBox'
-        placeholder={user.city}
+        // placeholder={user.city}
         onChange={async (e) => await updateCity(e)}
       />
       <button
