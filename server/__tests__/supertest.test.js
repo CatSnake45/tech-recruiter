@@ -5,9 +5,9 @@ const server = 'http://localhost:3000';
 
 describe('Route Integration', () => {
   describe('/', () => {
-    it(' / responsds with code 200 and text/html content', async () => {
+    it(' / responds with code 200 and text/html content', async () => {
       return await request(server)
-        .get('/')
+        .post('/')
         .send({ what: 'Full Stack', where: 'McKinney', page: 1 })
         .expect('Content-Type', /application\/json/)
         .expect(200);
@@ -18,7 +18,7 @@ describe('Route Integration', () => {
     it('/register post responds with code 200 and text/html content', async () => {
       return await request(server)
         .post('/register')
-        .send({ userName: 'trevor1', password: '12345', city: 'McKinney' })
+        .send({ userName: 'trevor4', password: '12345', city: 'McKinney' })
         .expect('Content-Type', /application\/json/)
         .expect(201);
     });
