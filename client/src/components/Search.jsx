@@ -1,16 +1,17 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-const Search = ({ getSearch, setJob, city, updateCity,jobCards }) => {
+const Search = ({ getSearch, setJob, city, updateCity, jobCards }) => {
   const user = useSelector((state) => state.user);
   console.log('city in search', user.city);
-  console.log('jobCards in Search',jobCards)
+  console.log('jobCards in Search', jobCards);
   return (
     <div className='search-bar'>
       <select
         className='select-box'
         name='type'
         id='date-types'
+        role='selectBox'
         onChange={async (e) => await setJob(e)}
       >
         <option value='' disabled>
@@ -31,6 +32,7 @@ const Search = ({ getSearch, setJob, city, updateCity,jobCards }) => {
       <input
         className='search-bar select-box'
         type='text'
+        role='searchBox'
         placeholder={user.city}
         onChange={async (e) => await updateCity(e)}
       />
