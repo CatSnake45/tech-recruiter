@@ -8,7 +8,7 @@ import configureStore from 'redux-mock-store';
 
 import Search from '../Search.jsx';
 import Form from '../loginPage/Form.jsx';
-import jestConfig from '../../../../config.jsons';
+// import jestConfig from '../../../../config.jsons';
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
@@ -22,9 +22,9 @@ describe('Unit testing React components', () => {
   describe('Testing Search Page', () => {
     const props = {
       getSearch: jest.fn(),
-      setJob: 'Full Stack Developer',
+      setJob: jest.fn(),
       city: 'Austin',
-      updateCIty: jest.fn(),
+      updateCity: jest.fn(),
     };
 
     test('should contain the heading "Select Job Type"', () => {
@@ -40,7 +40,7 @@ describe('Unit testing React components', () => {
   });
 
   describe('Testing Login & Logout Functions', () => {
-    test('Filling in login form', async () => {
+    test('Login Button Works', async () => {
       render(
         <MemoryRouter>
           <Provider store={mockStore({})}>
@@ -49,7 +49,7 @@ describe('Unit testing React components', () => {
         </MemoryRouter>
       );
       await userEvent.click(screen.getByText('LOGIN'));
-      expect(LOGIN).toHaveBeenCalledTimes(1);
+      expect('LOGIN').toHaveBeenCalledTimes(1);
     });
 
     test('Filling in login form', async () => {
