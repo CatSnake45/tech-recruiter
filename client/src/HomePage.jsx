@@ -20,6 +20,7 @@ const HomePage = ({
   jobCards,
   updateCount,
   showSeeMore,
+  seeMoreJobs,
 }) => {
   // possibley unessecary if redux not being implemented
   const user = useSelector((state) => state.user);
@@ -62,6 +63,7 @@ const HomePage = ({
           </p>
           <div className='search-div'>
             <Search
+              jobCards = {jobCards}
               getSearch={getSearch}
               newCity={newCity}
               setJob={setJob}
@@ -72,7 +74,16 @@ const HomePage = ({
           </div>
         </div>
         <JobDisplay jobCards={jobCards} />
-        {showSeeMore}
+        {console.log(`showSeeMore: ${showSeeMore}`)}
+        {showSeeMore && (
+          <button
+            className='see-more-button'
+            type='submit'
+            onClick={seeMoreJobs}
+          >
+            Click for more jobs
+          </button>
+        )}
       </div>
     </div>
   );

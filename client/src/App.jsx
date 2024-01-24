@@ -7,8 +7,11 @@ import './App.css';
 import { CssBaseline } from '@mui/material';
 import { useSelector } from 'react-redux';
 
-let showSeeMore = null;
+let showSeeMore = false;
 let fetched = false;
+let counter = 0;
+let state;
+let newCity;
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -19,40 +22,35 @@ const App = () => {
   const [jobType, setJobType] = useState('Python developer');
   const [city, setCity] = useState('');
   const [jobCards, updateCards] = useState([]);
+  const [seeMore, setSeeMore] = useState(false);
   // PB: Added a piece of state to keep track of searches
   const [searchCount, updateSearchCount] = useState(0);
 
   // create two variables to hold city and state, then pass as props
-  let state;
-  let newCity;
 
   //search function, when user submits, it iniatites a fetch request, and appends data to the job cards array. Then updates state of cards array
   const getSearch = async (e) => {
-    const cityArr = city.split(', ');
-    state = cityArr[1];
-    newCity = cityArr[0];
+    console.log('getSearch!');
+    const location = city;
+    updateCards([]);
 
     // PB: When getSearch is called, set searchCount variable to 1
-    updateSearchCount(1);
-
-    showSeeMore = (
-      <button
-        className='see-more-button'
-        type='submit'
-        onClick={async (e) => await updateCount(e)}
-      >
-        Click for more jobs
-      </button>
-    );
+    // await updateSearchCount(1);
+    counter = 1;
+    console.log('App.jsx line 37:', counter);
 
     // PB: variable for search count
-    let count = searchCount;
-    const newData = await fetchData(newCity, state, jobType, count);
+    // let count = searchCount;
+    const { done, jobsArray } = await fetchData(city, jobType, counter);
+    console.log('jobsArray line 45:', jobsArray);
+
+    // figure out why only 9 of these 10 jobCards get rendered
 
     // this is why all new data is added to existing old data. instead, just set existing state to newData
     //  const updatedData = jobCards.concat(newData);
-    const updatedData = newData;
-    updateCards(updatedData);
+    updateCards(jobsArray);
+    showSeeMore = true;
+    setSeeMore(true);
   };
 
   //function to set the city to user input , and change job type state
@@ -62,18 +60,23 @@ const App = () => {
 
   //what is showSeeMore meant to do?? Seems like it fetches data, updates state, and returns showSeeMore? Maybe 0th index is not relevant
   const updateCount = async (e) => {
-    console.log('-------clicked---------');
-
     // PB: Update searchCount on state by 1
-    updateSearchCount(searchCount + 1);
+    // await updateSearchCount(searchCount + 1);
+    counter++;
+    console.log('clicked updateCount, counter:', counter);
+    // let count = searchCount;
+    console.log(
+      `city: ${city}, state: ${state}, jobType: ${jobType}, counter: ${counter}`
+    );
+    let { done, jobsArray } = await fetchData(city, jobType, counter);
+    console.log('App.jsx jobsArray:', jobsArray);
+    //for(let i = 1; i < newData.length; i++){}
+    updateCards([...jobCards, ...jobsArray]);
 
-    let count = searchCount;
-    const newData = await fetchData(newCity, state, jobType, count);
-
-    updateCards(newData);
-    let done = newData[0];
-    if (done === 'true') {
-      showSeeMore = null;
+    if (done === true) {
+      setSeeMore(false);
+      showSeeMore = false;
+      counter = 0;
     }
   };
 
@@ -94,7 +97,7 @@ const App = () => {
           path='/home'
           element={
             <HomePage
-              user = {user}
+              user={user}
               jobCards={jobCards}
               getSearch={getSearch}
               // setCards = {setCards}
@@ -103,7 +106,8 @@ const App = () => {
               state={state}
               city={city}
               updateCity={updateCity}
-              showSeeMore={showSeeMore}
+              showSeeMore={seeMore}
+              seeMoreJobs={updateCount}
             />
           }
         ></Route>

@@ -25,7 +25,7 @@ const Signup = () => {
 
   const register = async (e) => {
     try {
-      const savedUserResponse = await fetch('http://localhost:3000/register', {
+      const registerUser = await fetch('http://localhost:3000/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ const Signup = () => {
         body: JSON.stringify(userInformation),
       });
 
-      const savedUser = await savedUserResponse.json();
+      const registerResponse = await registerUser.json();
 
       // The following three lines of code were updating state so that a refresh was necessary in order enter login info
       // By commenting them out, we seem to be able to login without having to refresh page
@@ -42,9 +42,16 @@ const Signup = () => {
       // setPassword("");
       // setCity("");
 
-      if (savedUser) {
+      if (!('err' in registerResponse)) {
+        alert('Account has been created!');
         setPageType('login');
-        console.log('success submitting', savedUser);
+        //console.log('', savedUser);
+      } else {
+        if ('details' in registerResponse) {
+          alert(`${registerResponse.err} \n${registerResponse.details}`);
+        } else {
+          alert(`${registerResponse.err}`);
+        }
       }
     } catch (error) {
       console.error(`Error submitting: ${error}`);
@@ -61,21 +68,25 @@ const Signup = () => {
         body: JSON.stringify(userInformation),
       });
 
-      const loggedIn = await loginResponse.json();
-      console.log('LOGGED IN', loggedIn);
-
-      if (!loggedIn['error']) {
+      const loggedInResponse = await loginResponse.json();
+      // console.log(loggedInResponse);
+      // throw an alert for any login errors
+      if (!('error' in loggedInResponse)) {
+        //console.log('LOGGED IN', loggedInResponse);
         dispatch(
           setLogin({
-            user: loggedIn.user,
+            user: loggedInResponse.user,
           })
         );
 
         navigate('/home');
-        console.log('success logging in', loggedIn);
+        //console.log('success logging in', loggedInResponse);
+      } else {
+        alert(`Error: ${loggedInResponse.error}`);
       }
     } catch (error) {
-      console.error(`Error logging in: ${error}`);
+      //console.error(`Error logging in: ${error}`);
+      alert(`Error logging in: ${error}`);
     }
   };
 

@@ -1,12 +1,12 @@
 - [x] hide the database link!!!
 - [x] had to delete node modules folder to run it
-- [ ] when creating an account you cannot immediately log in
-- [ ] Search function is not working properly and somehow attached to your registration city
-- [ ] Jobs keep infinitely populating (sometimes empty objects)
-- [ ] API is hard coded to one query ("https://jsearch.p.rapidapi.com/search?query=Python%20developer%20in%20Texas%2C%20USA&page=1&num_pages=1";)
-- [ ] API has a super small daily quota - Idea: save queried data in our own database to lessen API load
+- [x] when creating an account you cannot immediately log in
+- [x] Search function is not working properly and somehow attached to your registration city
+- [x] Jobs keep infinitely populating (sometimes empty objects)
+- [x] API is hard coded to one query ("https://jsearch.p.rapidapi.com/search?query=Python%20developer%20in%20Texas%2C%20USA&page=1&num_pages=1";)
+- [x] API has a super small daily quota - Idea: save queried data in our own database to lessen API load
 - [ ] Could turn job populations into title cards to click on rather than full view in overview (like Snippet Cards)
-- [ ] Add a logout button
+- [x] Add a logout button
 - [ ] Create a README
 
 # Testing:
@@ -33,23 +33,24 @@
 ## Checking server
 
 - [ ] Routes do not seem restful (userData, register, login)
-- [ ] Unnecessary sub-router in root route
-- [ ] all the responses are in the middleware
+- [x] Unnecessary sub-router in root route
+- [x] all the responses are in the middleware
 - [ ] is GET /userData used at all?
 - [ ] bodyparser.json() no longer necessary?
 - [x] create a global error handler
 - [x] create a 404 handler
-- [ ] changing imports to require
+- [x] changing imports to require
+      -> turns out imports are newer than require!
 
 ## Checking controllers
 
-- [ ] getUserData is a get request with a body. Bad practice?
-- [ ] register function is using newUser.save() instead of create()
-- [ ] is getUserData used anywhere? Does it make sense?
-- [ ] (front-end?) city is always being grabbed from
-- [ ] create and bind a new database
-- [ ] create and bind in a new API
-- [ ] put API in an ENV variable?
+- [x] getUserData is a GET request with a body. Bad practice?
+- [x] register function is using newUser.save() instead of create()
+- [x] is getUserData used anywhere? Does it make sense?
+- [x] (front-end?) city is always being grabbed from
+- [x] create and bind a new database
+- [x] create and bind in a new API
+- [x] put API in an ENV variable?
 - [ ] imported JWT (jsonwebtoken) but never used it?
 - [x] Bundle all user related middleware into a new userController
 
