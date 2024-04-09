@@ -1,11 +1,11 @@
 const jobController = {};
 
 jobController.getJobData = async (req, res, next) => {
-  const { what, where, page } = req.body;
   // let page = 1;
   // let what = 'Javascript Developer';
-  // let where = 'Boston';
+  // let where = 'NYC';
   const url = `https://api.adzuna.com/v1/api/jobs/us/search/${page}?app_id=${process.env.API_APP_ID}&app_key=${process.env.API_KEY}&results_per_page=50&what=${what}&where=${where}`;
+  // console.log('url', url);
   //https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=d045d28c&app_key=9762edd919aa95b4dce07ea1e12c2639&results_per_page=200&what=Javascript%20Developer&where=Torrance
   //what = search term (like 'javascript developer' from our dropdown menu)
   //where = city/place //input.replace(' ','%20')
@@ -13,12 +13,12 @@ jobController.getJobData = async (req, res, next) => {
   //page (where it says /search/1?) (important when loading more jobs!)
 
   try {
-    console.log(url);
+    // console.log('in try');
     const response = await fetch(url, { method: 'GET' });
-    //console.log(response);
+    // console.log('response', response);
 
     const result = await response.json();
-    //console.log(result);
+    console.log('result', result);
     res.locals.jobs = result;
     return next();
   } catch (error) {

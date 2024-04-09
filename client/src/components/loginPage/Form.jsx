@@ -25,7 +25,7 @@ const Signup = () => {
 
   const register = async (e) => {
     try {
-      const savedUserResponse = await fetch('http://localhost:3000/register', {
+      const savedUserResponse = await fetch('http://localhost:3001/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ const Signup = () => {
 
   const login = async (e) => {
     try {
-      const loginResponse = await fetch('http://localhost:3000/login', {
+      const loginResponse = await fetch('http://localhost:3001/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

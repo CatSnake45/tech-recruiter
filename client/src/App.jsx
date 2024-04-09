@@ -94,7 +94,7 @@ const App = () => {
           path='/home'
           element={
             <HomePage
-              user = {user}
+              user={user}
               jobCards={jobCards}
               getSearch={getSearch}
               // setCards = {setCards}

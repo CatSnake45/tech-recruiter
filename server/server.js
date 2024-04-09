@@ -20,7 +20,7 @@ const MONGO_URI = process.env.MONGO_URI;
 //'mongodb+srv://cyrusburns:cyburns@cluster0.oopqdji.mongodb.net/?retryWrites=true&w=majority';
 app.get('/', jobController.getJobData, (req, res) => {
   //console.log(res.locals.jobs);
-  //console.log(res.locals.jobs);
+  console.log('res.locals jobs', res.locals.jobs);
 
   return res.status(200).json(res.locals.jobs);
 });
