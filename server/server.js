@@ -15,9 +15,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 dotenv.config();
 
-const PORT = process.env.PORT;
+// const PORT = process.env.PORT;
+const PORT = 3333;
+
+
 const MONGO_URI = process.env.MONGO_URI;
-//'mongodb+srv://cyrusburns:cyburns@cluster0.oopqdji.mongodb.net/?retryWrites=true&w=majority';
 app.post('/', jobController.getJobData, (req, res) => {
   //console.log(res.locals.jobs);
   //console.log(res.locals.jobs);
@@ -56,8 +58,8 @@ app.use((err, req, res, next) => {
 
 mongoose
   .connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
     dbName: 'tech_recruiter',
   })
   .then(() => {
