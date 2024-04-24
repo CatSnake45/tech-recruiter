@@ -6,6 +6,13 @@ import bodyParser from 'body-parser';
 import userController from './controllers/userController.js';
 import jobController from './controllers/jobController.js';
 
+// the following imports are used for the purpose of resolving env location
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const app = express();
 
 app.use(express.json());
@@ -13,13 +20,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-dotenv.config();
+dotenv.config({ path: __dirname + '/../.env' });
 
-// const PORT = process.env.PORT;
-const PORT = 3333;
-
+const PORT = process.env.PORT;
 
 const MONGO_URI = process.env.MONGO_URI;
+
 app.post('/', jobController.getJobData, (req, res) => {
   //console.log(res.locals.jobs);
   //console.log(res.locals.jobs);

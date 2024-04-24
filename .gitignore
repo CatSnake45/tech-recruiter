@@ -1,3 +1,6 @@
+# Env files
+.env
+
 # Logs
 logs
 *.log
@@ -22,6 +25,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# Env files
-.env
